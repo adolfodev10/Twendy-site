@@ -47,17 +47,15 @@ header {
 }
 
 .info-header a {
-    color: white;
+    color: #205E6B;
     margin: 0 8px;
 }
 
 .info-header a:hover {
-    background-color: rgb(8, 9, 19);
-    color: white;
+    color: #107070;
 }
 
 .info-header {
-    color: white;
     display: flex;
     align-items: center;
     font-size: 20px;
@@ -68,7 +66,7 @@ header {
     width: 200px;
     height: 200px;
     border-radius: 50%;
-    margin-left: 30px;
+    margin-left: -20px;
 
 }
 
@@ -77,12 +75,11 @@ header {
     margin-top: 8px;
     font-size: 20px;
 }
-
 /* ============================== NOTIFICAÇÃO ============================ */
 nav {
     display: flex;
     align-items: center;
-    background: rgb(8, 9, 19);
+    background: #fff;
     height: 30px;
     position: relative;
     padding: 0 10px;
@@ -90,7 +87,7 @@ nav {
 
 .icon {
     cursor: pointer;
-    color: white;
+    color: #205E6B;
     position: relative;
 }
 
