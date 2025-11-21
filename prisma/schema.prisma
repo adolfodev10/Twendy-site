@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Usuario {
+  id_usuario   Int           @id @default(autoincrement())
+  nome         String
+  email        String        @unique
+  BI           String        @unique
+  funcionarios Funcionario[] 
+  enviadas     Comunicacao[] @relation("Remetente")
+  recebidas    Comunicacao[] @relation("Destinatario")
+}
+
+model Funcionario {
+  id_funcionario Int       @id @default(autoincrement())
+  id_usuario     Int
+  telefone       String?
+  cargo          String?
+  salario        Float?    // ou Decimal @db.Decimal(10,2)
+  usuario        Usuario   @relation(fields: [id_usuario], references: [id_usuario])
+  uploads        Upload[] 
+  servicos       Servico[]
+}
+
+model Upload {
+  id_upload      Int        @id @default(autoincrement())
+  id_funcionario Int
+  video          String?    // caminho do arquivo
+  imagem         String?
+  descri         String?
+  funcionario    Funcionario @relation(fields: [id_funcionario], references: [id_funcionario])
+}
+
+model Servico {
+  id_servico     Int        @id @default(autoincrement())
+  id_funcionario Int
+  video          String?
+  imagem         String?
+  descri         String?
+  funcionario    Funcionario @relation(fields: [id_funcionario], references: [id_funcionario])
+}
+
+model Comunicacao {
+  id_comunicacao  Int       @id @default(autoincrement())
+  tipo            ComunicacaoTipo
+  id_remetente    Int
+  id_destinatario Int
+  assunto         String?
+  mensagem        String
+  data_envio      DateTime  @default(now())
+
+  remetente      Usuario   @relation("Remetente", fields: [id_remetente], references: [id_usuario])
+  destinatario   Usuario   @relation("Destinatario", fields: [id_destinatario], references: [id_usuario])
+
+  @@index([tipo])
+  @@index([id_destinatario])
+}
+
+enum ComunicacaoTipo {
+  contrato
+  sms
+}
+
